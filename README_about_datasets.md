@@ -10,6 +10,9 @@ We are utilizing data for Froya site which are prepared for extraction in the `/
 The data can be downloaded appart from this repository -->
 [froya data pack](http://download.vortexfdc.com/froya.zip)
 
+To check the data integrity and autenticity the md5 checksun is:
+md5sum froya.zip : 3ad4368eef6c8bb6ce8137448cdaaa1c
+
 After unpacking the folder structure should be created as follows under data folder:
 ``` 
 ├── froya
