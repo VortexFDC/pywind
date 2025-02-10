@@ -1,6 +1,5 @@
 # Pywind: Wind Data Analysis for Wind Energy Applications [](#top)
 
-
 Welcome to the **Pywind**, a comprehensive repository about the use of Python  in the wind data analysis for wind energy 
 applications. This repository provides tools and examples for reading, plotting, and analyzing wind data. Whether you 
 are a student, developer, engineer, or a Python enthusiast interested in wind data, hope you will find valuable and usable 
@@ -16,7 +15,7 @@ resources. Find below the structure of this project:
   - [7. License ](#7-license-)
   - [8. Collaboration ](#8-collaboration-)
 
- _Developed and Created by Vortex_  
+ _Developed and Created by Vortex FdC._  
 
 ## 1. Introduction and Main Goals [](#1.introduction-and-main-goals)
 
@@ -75,7 +74,9 @@ To execute the examples, you can run the following commands from the terminal or
 
 ## 6. Chapters [](#6-chapters)
 
-**For further information, documentation, and tutorials, please contact with us.**
+- [Chapter 1](notebooks/example_1_read_netcdf.ipynb)
+Read netcdf files with the xarray libraries. You will open and make basic operations. A quick overview of the data if done using pandas libraries.
+
 
 ## 7. License [](#7-license)
 
@@ -91,7 +92,7 @@ You can fork and submit your PR too.
 
 [Contact us](https://vortexfdc.com/contact/)
 
-[back to top](#top)
+[Back to top.](#top)
 
 <div align="center"><img src="images/logo_VORTEX.png" width="200px"> </center>
 
