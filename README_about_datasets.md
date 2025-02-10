@@ -1,42 +1,47 @@
 # PYWIND Sample Data
 We present the sample data which is used within this repository to play with.
 
-## Lindenberg site
-We are utilizing data for Lindenberg site which are prepared for extraction in the `/data` folder. 
+## Froya site
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3403362.svg)](https://doi.org/10.5281/zenodo.3403362) 
+
+
+We are utilizing data for Froya site which are prepared for extraction in the `/data` folder. 
 The data can be downloaded appart from this repository -->
-[lindenberg data pack](http://download.vortexfdc.com/lindenberg.zip)
+[froya data pack](http://download.vortexfdc.com/froya.zip)
+
+To check the data integrity and autenticity the md5 checksun is:
+md5sum froya.zip : 3ad4368eef6c8bb6ce8137448cdaaa1c
 
 After unpacking the folder structure should be created as follows under data folder:
 ``` 
-├── lindenberg
+├── froya
 │   ├── measurements
-│   │   ├── lindenberg_obs.nc
-│   │   └── lindenberg_obs.txt
+│   │   ├── obs.nc
+│   │   └── obs.txt
 │   └── vortex
 │       └── SERIE
-│           ├── vortex.serie.era5.100m.utc0.nc
-│           └── vortex.serie.era5.100m.utc0.txt
+│           ├── vortex.serie.era5.utc0.nc
+│           └── vortex.serie.era5.utc0.100m.txt
 ```
         
 
 ### A. Observed data
 
-[Lindenberg](data/lindenberg/measurements) original data can be found [here](https://www.cen.uni-hamburg.de/en/icdc/data/atmosphere/weathermast-lindenberg.html).
-The met mast is located in a flat land area sorrounded by patches of forests and close to the German's city of 
-Lindenberg. 
-The location of the met mast is 52.170 latitude and 14.120 longitude in the EPSG:4326 projection(WGS84 lat lon).
+[Froya](data/froya/measurements) original data can be found [here](https://zenodo.org/records/3403362#.Y1eS5XZByUk).
+The site represents an exposed coastal wind climate with open sea, land and mixed fetch from various directions. UTM-coordinates of the Met-mast: 8.34251 E and 63.66638. A post processing has been applied in order to obtain single boom and quality control standards for wind industry.
 
-![View of the boundary layer field measurement site in Lindenberg-Falkenberg with the 99 m measurement tower. 
-Copyright:DWD/J.-P. Leps](images/pic-wettermast-lindenberg.jpg "Lindenebrg met mast")
+![View of the area for measurement site in Froya 
+](images/Froya-map.png "Froya met mast")
 
 ### B. Modeled data
 We are also using [Vortex f.d.c](http://www.vortexfdc.com) simulations. <br />
 
 <b>SERIES</b> 20 year long time series computed using WRF at 3km final spatial rsolution. Heights from 30m to 300m  height. <br />
 
-- Format netCDF with multiple heights. (data/lindenberg/vortex/SERIE/vortex.serie.era5.d02.nc). <br />
+- Format netCDF with multiple heights. (data/froya/vortex/SERIE/vortex.serie.era5.utc0.nc). <br />
 
-- Format txt @ 100m height (data/lindenberg/vortex/SERIE/vortex.serie.era5.d02.txt)
+- Format txt @ 100m height (data/froya/vortex/SERIE/vortex.serie.era5.utc0.100m.txt)
 <br /><br />
 
 

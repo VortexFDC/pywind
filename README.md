@@ -6,15 +6,15 @@ applications. This repository provides tools and examples for reading, plotting,
 are a student, developer, engineer, or a Python enthusiast interested in wind data, hope you will find valuable and usable 
 resources. Find below the structure of this project:
 
-1. [Introduction and Main Goals](#1.introduction-and-main-goals)
-2. [Authors](#2-authors)
-3. [About](#3-about)
-4. [Installation](#4-installation)
-5. [Usage](#5-usage)
-6. [Chapters](#6-chapters)
-7. [License](#7-license)
-8. [Collaboration](#8-collaboration)
-<br />
+- [Pywind: Wind Data Analysis for Wind Energy Applications ](#pywind-wind-data-analysis-for-wind-energy-applications-)
+  - [1. Introduction and Main Goals ](#1-introduction-and-main-goals-)
+  - [2. Authors ](#2-authors-)
+  - [3. About ](#3-about-)
+  - [4. Installation ](#4-installation-)
+  - [5. Usage ](#5-usage-)
+  - [6. Chapters ](#6-chapters-)
+  - [7. License ](#7-license-)
+  - [8. Collaboration ](#8-collaboration-)
 
  _Developed and Created by Vortex_  
 
@@ -86,6 +86,8 @@ Please, use, modify and share if you find it useful.
 ## 8. Collaboration [](#8-collaboration)
 
 You can submit your ideas, add code, and become a collaborator. Just contact us or leave your message under discussion.
+
+You can fork and submit your PR too.
 
 [Contact us](https://vortexfdc.com/contact/)
 
