@@ -8,7 +8,7 @@ We present the sample data which is used within this repository to play with.
 
 We are utilizing data for Froya site which are prepared for extraction in the `/data` folder. 
 The data can be downloaded appart from this repository -->
-[froya data pack](http://download.vortexfdc.com/froya.zip)
+[froya data pack](http://download.vortexfdc.com/froya.zip)  http://download.vortexfdc.com/froya.zip
 
 To check the data integrity and autenticity the md5 checksun is:
 md5sum froya.zip : 3ad4368eef6c8bb6ce8137448cdaaa1c
@@ -28,7 +28,7 @@ After unpacking the folder structure should be created as follows under data fol
 
 ### A. Observed data
 
-[Froya](data/froya/measurements) original data can be found [here](https://zenodo.org/records/3403362#.Y1eS5XZByUk).
+Froya original data can be found [here](https://zenodo.org/records/3403362#.Y1eS5XZByUk).
 The site represents an exposed coastal wind climate with open sea, land and mixed fetch from various directions. UTM-coordinates of the Met-mast: 8.34251 E and 63.66638. A post processing has been applied in order to obtain single boom and quality control standards for wind industry.
 
 ![View of the area for measurement site in Froya 
