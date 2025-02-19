@@ -86,9 +86,11 @@ Please, use, modify and share if you find it useful.
 
 ## 8. Collaboration [](#8-collaboration)
 
-You can submit your ideas, add code, and become a collaborator. Just contact us or leave your message under discussion.
+We encourage collaboration, proposals and new ideas. 
 
-You can fork and submit your PR too.
+Plase follow the [collaboration guidelines](CONTRIBUTING.md) for work proposals. 
+
+You can also use the discussions in this repository for new ideas, Q&A, questions, etc.
 
 [Contact us](https://vortexfdc.com/contact/)
 
