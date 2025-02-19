@@ -1,6 +1,6 @@
-**Contribution Guidelines
-
-***How to Contribute
+# Contribution Guidelines 
+______________________________________________________________
+## How to Contribute
 
 Thank you for considering contributing to this project! Here’s how you can help:
 
@@ -23,14 +23,14 @@ __Push Changes:__ Push your changes to your forked repository.
 git push origin feature-branch
 
 __Create a Pull Request:__ Submit a pull request (PR) to the main repository with a clear explanation of your changes.
-
-***Code Style***
+______________________________________________________________
+## Code Style
 
 Follow PEP8 if contributing Python code.
 
 Ensure your code is well-documented and readable.
-
-***Reporting Issues***
+______________________________________________________________
+## Reporting Issues
 
 If you find a bug, please report it by opening an issue. Include:
 
