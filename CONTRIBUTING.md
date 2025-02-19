@@ -8,7 +8,7 @@ __Fork the Repository:__ Click on the fork button at the top right corner of the
 
 __Clone Your Fork:__ Clone the forked repository to your local machine.
 
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/vortexFDC/pywind.git
 
 __Create a New Branch:__ Create a branch for your changes.
 
