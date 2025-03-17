@@ -27,7 +27,7 @@ def read_vortex_serie(filename: str = "vortex.txt",
     Examples
     --------
     Lat=52.90466  Lon=14.76794  Hub-Height=130  Timezone=00.0   ASL-Height(avg. 3km-grid)=73  (file requested on 2022-10-17 11:34:05)
-    VORTEX (www.vortex.es) - Computed at 3km resolution based on ERA5 data (designed for correlation purposes)
+    VORTEX f.d.c. (www.vortexfdc.com) - Computed at 3km resolution based on ERA5 data (designed for correlation purposes)
     YYYYMMDD HHMM  M(m/s) D(deg)  T(C)  De(k/m3) PRE(hPa)      RiNumber  RH(%)   RMOL(1/m)
     19910101 0000    8.5    175    2.1    1.25     988.1           0.56   91.1      0.
 
