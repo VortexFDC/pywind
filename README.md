@@ -77,6 +77,12 @@ To execute the examples, you can run the following commands from the terminal or
 - [Chapter 1](notebooks/example_1_read_netcdf.ipynb)
 Read netcdf files with the xarray libraries. You will open and make basic operations. A quick overview of the data if done using pandas libraries.
 
+- [Chapter 2](notebooks/example_2_read_txt.ipynb)
+Read txt files with the pandas libraries and create custom functions to some utilities like parsing txt header metadata and incorporate into the data object in xarray. 
+
+- [Chapter 3](notebooks/example_3_merge.ipynb)
+Merge two datasets. We will use the data from previous chapters. We will be merging the synthetic data from the model and the measurements.
+
 
 ## 7. License [](#7-license)
 
