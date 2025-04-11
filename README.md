@@ -83,6 +83,11 @@ Read txt files with the pandas libraries and create custom functions to some uti
 - [Chapter 3](notebooks/example_3_merge.ipynb)
 Merge two datasets. We will use the data from previous chapters. We will be merging the synthetic data from the model and the measurements.
 
+- [Chapter 4](notebooks/example_4_basic_plots.ipynb)
+With the previous datasets loaded we make some plots to gather extra information. XY plots for correlation. Histograms for wind and direction distribution. Yealy and daily cycles together with interanual variability are created. Also some more data cleaning is performed by extended measurements and Vortex data. An  outlyers identification approach is also proposed.
+
+
+
 
 ## 7. License [](#7-license)
 
