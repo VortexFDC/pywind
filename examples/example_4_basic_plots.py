@@ -16,7 +16,8 @@ This script demonstrates the process of plotting basic information once a datase
 # =============================================================================
 
 from example_3_merge_functions import *
-import pandas as pd
+from example_4_basic_plots_functions import *
+import os
 
 # =============================================================================
 # 2. Define Paths and Site
@@ -78,126 +79,147 @@ df_vortex_nc = df_vortex_nc[['M','Dir']]
 print("df_vortex_nc columns: ", df_vortex_nc.columns)
 df_vortex_nc.columns = ['M_vortex_nc', 'Dir_vortex_nc']
 
-# merge using index (time) all dataframes
-df = df_obs_nc.merge(df_vortex_nc, left_index=True, right_index=True)
-print()
-
-# If you want to have only concurrent period, remove nodatas
+df = df_vortex_nc.merge(df_obs_nc, left_index=True, right_index=True)
+# subtitute NA with 9999
 df = df.dropna(how='any', axis=0)
-# force to show all describe columns
 
-print(df.head())
+# add vortex series with only concurrent period to obs.
+df_with_na = pd.merge(df_vortex_nc, df_obs_nc, left_index=True, right_index=True, how='outer')
+df_ST = df[['M_vortex_nc','Dir_vortex_nc']]
+df_ST.columns = ['M_vortex_nc_ST', 'Dir_vortex_nc_ST']
+df_with_na = pd.merge(df_with_na, df_ST, left_index=True, right_index=True, how='outer')
+
+# check....
+## checked, they are the same df_with_na = df_with_na.dropna(how='any', axis=0)
 
 # =============================================================================
-# 7. Create XY Plot with Linear Regression
+# 8. Use the functions for plotting
 # =============================================================================
+output_dir = "output"
 
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy import stats
 
-# Create figure and axis
-plt.figure(figsize=(8, 8))
 
-# Scatter plot of M observations vs M vortex
-plt.scatter(df['M_obs_nc'], df['M_vortex_nc'], alpha=0.5, color='blue')
-
-# Calculate linear regression
-slope, intercept, r_value, p_value, std_err = stats.linregress(df['M_obs_nc'], df['M_vortex_nc'])
-r_squared = r_value**2
-
-# Create regression line
-x = np.linspace(df['M_obs_nc'].min(), df['M_obs_nc'].max(), 100)
-y = slope * x + intercept
-plt.plot(x, y, 'r-', label=f'y = {slope:.3f}x + {intercept:.3f}')
-
-# Add identity line (perfect agreement)
-plt.plot([0, max(df['M_obs_nc'].max(), df['M_vortex_nc'].max())], 
-         [0, max(df['M_obs_nc'].max(), df['M_vortex_nc'].max())], 
-         'k--', alpha=0.3, label='1:1')
-
-# Add annotations with regression statistics
-plt.annotate(f'$R^2$ = {r_squared:.3f}', 
-             xy=(0.05, 0.95), xycoords='axes fraction', 
-             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-
-# Add labels and title
-plt.xlabel('Measurement Wind Speed (m/s)', fontsize=12)
-plt.ylabel('Vortex Wind Speed (m/s)', fontsize=12)
-plt.title(f'Comparison of Measured vs Vortex Wind Speed at {SITE.capitalize()}', fontsize=14)
-
-# Add grid and legend
-plt.grid(True, alpha=0.3)
-plt.legend()
-
-# Equal aspect ratio
-plt.axis('equal')
-plt.tight_layout()
-
-# Save the figure
-output_dir = os.path.join(pwd, '../output')
-os.makedirs(output_dir, exist_ok=True)
-plt.savefig(os.path.join(output_dir, f'{SITE}_wind_speed_comparison.png'), dpi=300)
-
-# Show the plot
-plt.show()
+# Use the functions to create the plots
+xy_stats = plot_xy_comparison(
+    df=df, 
+    x_col='M_obs_nc', 
+    y_col='M_vortex_nc',
+    x_label='Measurement Wind Speed (m/s)',
+    y_label='Vortex Wind Speed (m/s)',
+    site=SITE,
+    output_dir=output_dir,
+    outlyer_threshold=4
+)
+output_dir = "output"
+# Use the functions to create the plots
+xy_stats = plot_xy_comparison(
+    df=df, 
+    x_col='M_obs_nc', 
+    y_col='M_vortex_nc',
+    x_label='Measurement Wind Speed (m/s)',
+    y_label='Vortex Wind Speed (m/s)',
+    site=SITE,
+    output_dir=output_dir,
+    outlyer_threshold=6
+)
 
 # Print regression statistics
 print(f"\nRegression Statistics:")
-print(f"Slope: {slope:.4f}")
-print(f"Intercept: {intercept:.4f}")
-print(f"R-squared: {r_squared:.4f}")
-print(f"p-value: {p_value:.4e}")
-print(f"Standard Error: {std_err:.4f}")
+print(f"Slope: {xy_stats['slope']:.4f}")
+print(f"Intercept: {xy_stats['intercept']:.4f}")
+print(f"R-squared: {xy_stats['r_squared']:.4f}")
+print(f"p-value: {xy_stats['p_value']:.4e}")
+print(f"Standard Error: {xy_stats['std_err']:.4f}")
+
+# Create histogram
+hist_stats = plot_histogram_comparison(
+    df=df,
+    cols=['M_obs_nc', 'M_vortex_nc'],
+    labels=['Measurements', 'Vortex'],
+    colors=['blue', 'red'],
+    site=SITE,
+    output_dir=output_dir,
+    bins=25,
+    alpha=0.6
+)
+
+# Create histogram
+hist_stats = plot_histogram_comparison(
+    df=df,
+    cols=['Dir_obs_nc', 'Dir_vortex_nc'],
+    labels=['Measurements', 'Vortex'],
+    colors=['blue', 'red'],
+    site=SITE+" Dir",
+    output_dir=output_dir,
+    bins=12,
+    alpha=0.6
+)
+
+
 
 # =============================================================================
-# 8. Create Histogram of Wind Speed
+# 9. Plot Annual and Daily Cycles
 # =============================================================================
 
-plt.figure(figsize=(10, 6))
+# Plot annual cycle for wind speed
+annual_stats_M = plot_annual_means(
+    df=df,
+    cols=['M_obs_nc', 'M_vortex_nc'],
+    labels=['Measurements', 'Vortex'],
+    colors=['blue', 'red'],
+    site=SITE,
+    output_dir=output_dir
+)
 
-# Define number of bins and range
-bins = np.linspace(0, max(df['M_obs_nc'].max(), df['M_vortex_nc'].max()) + 1, 25)
+# Plot daily cycle for wind speed
+daily_stats_M = plot_daily_cycle(
+    df=df,
+    cols=['M_obs_nc', 'M_vortex_nc'],
+    labels=['Measurements', 'Vortex'],
+    colors=['blue', 'red'],
+    site=SITE,
+    output_dir=output_dir
+)
 
-# Plot histograms with transparency
-plt.hist(df['M_obs_nc'], bins=bins, alpha=0.6, label='Measurements', color='blue', edgecolor='black')
-plt.hist(df['M_vortex_nc'], bins=bins, alpha=0.6, label='Vortex', color='red', edgecolor='black')
+# =============================================================================
+# 10. Plot Yearly Means
+# =============================================================================
 
-# Add labels and title
-plt.xlabel('Wind Speed (m/s)', fontsize=12)
-plt.ylabel('Frequency', fontsize=12)
-plt.title(f'Wind Speed Distribution Comparison at {SITE.capitalize()}', fontsize=14)
+# Plot yearly means for wind speed
+yearly_stats_M = plot_yearly_means(
+    df=df,
+    cols=['M_obs_nc', 'M_vortex_nc'],
+    labels=['Measurements', 'Vortex'],
+    colors=['blue', 'red'],
+    site=SITE,
+    output_dir=output_dir
+)
 
-# Add grid and legend
-plt.grid(True, alpha=0.3)
-plt.legend()
 
-# Calculate and display some statistics
-obs_mean = df['M_obs_nc'].mean()
-vortex_mean = df['M_vortex_nc'].mean()
 
-plt.axvline(obs_mean, color='blue', linestyle='dashed', linewidth=1.5)
-plt.axvline(vortex_mean, color='red', linestyle='dashed', linewidth=1.5)
+# now I want to compare long term histogram using full ds_vortex_nc compared to the df period
+hist_stats = plot_yearly_means(
+    df = df_with_na,
+    cols = ['M_vortex_nc','M_obs_nc','M_vortex_nc_ST'],
+    labels=['Vortex LT','OBS','Vortex ST'],
+    colors=['green','blue','red'],
+    site =SITE,
+    output_dir=output_dir
+)
 
-# Add annotations for mean values
-plt.annotate(f'Obs Mean: {obs_mean:.2f} m/s', 
-             xy=(obs_mean, plt.ylim()[1] * 0.9),
-             xytext=(obs_mean + 0.5, plt.ylim()[1] * 0.9),
-             arrowprops=dict(arrowstyle='->', color='blue'),
-             color='blue')
+# describe to check number of NaNs in years 2010 to 2014
+# check the number of NaNs in the years 2010 to 2014
+print(df_with_na.loc['2010-01-01':'2014-12-31'].describe())
+print(df_with_na.loc['2010-01-01':'2014-12-31'].isna().sum())
 
-plt.annotate(f'Vortex Mean: {vortex_mean:.2f} m/s', 
-             xy=(vortex_mean, plt.ylim()[1] * 0.8),
-             xytext=(vortex_mean + 0.5, plt.ylim()[1] * 0.8),
-             arrowprops=dict(arrowstyle='->', color='red'),
-             color='red')
 
-plt.tight_layout()
 
-# Save the figure
-plt.savefig(os.path.join(output_dir, f'{SITE}_wind_speed_histogram.png'), dpi=300)
 
-# Show the plot
-plt.show()
+
+
+
+
+
+
 
 

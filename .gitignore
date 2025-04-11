@@ -6,9 +6,7 @@ __pycache__/
 .idea/
 # C extensions
 *.so
-data/
-data/*
-data.zip
+
 # Distribution / packaging
 .Python
 build/
@@ -162,3 +160,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .vscode/extensions.json
+
+
+## data packs and outputs
+
+data/
+data/*
+data.zip
+examples/output/
+notebooks/output/
