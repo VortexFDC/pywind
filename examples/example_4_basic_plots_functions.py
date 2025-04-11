@@ -60,12 +60,10 @@ def plot_xy_comparison(df, x_col, y_col, x_label=None, y_label=None, site=None,
     y_expected = slope * df[x_col] + intercept
     y_real= df[y_col]
     df['diff'] = np.abs(y_real - y_expected)
-    print(df['diff'].describe())
-    print(df['diff'])
+
     # Find points with significant differences
     
     outlyers = df['diff'] > outlyer_threshold
-    print(f"Number of outliers: {outlyers}")
     
     # Plot outliers
     plt.scatter(df[x_col][outlyers], df[y_col][outlyers], color='red', alpha=0.5, label='Outliers')
@@ -149,7 +147,6 @@ def plot_histogram_comparison(df, cols, labels=None, colors=None, site=None,
     """
     # Create figure
 
-    print(cols)
     plt.figure(figsize=(10, 6))
     
     # Use default labels if not provided
@@ -171,7 +168,6 @@ def plot_histogram_comparison(df, cols, labels=None, colors=None, site=None,
                  label=labels[i], color=colors[i % len(colors)], 
                  edgecolor='black')
         
-        print(df[col])
         
         # Calculate statistics
         mean_val = df[col].mean()
@@ -182,7 +178,6 @@ def plot_histogram_comparison(df, cols, labels=None, colors=None, site=None,
             "min": df[col].min(),
             "max": df[col].max()
         }
-        print(stats_dict[col])
         
         # Add vertical line for mean
         plt.axvline(mean_val, color=colors[i % len(colors)], 
@@ -443,7 +438,6 @@ def plot_yearly_means(df, cols, labels=None, colors=None, site=None,
     for i, col in enumerate(cols):
         # Group by year and calculate mean
         yearly_data = df[col].groupby(df.index.year).mean()
-        print(yearly_data)
         yearly_means[col] = yearly_data
         
         # Store stats
