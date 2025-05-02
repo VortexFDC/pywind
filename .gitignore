@@ -6,9 +6,7 @@ __pycache__/
 .idea/
 # C extensions
 *.so
-data/
-data/*
-data.zip
+
 # Distribution / packaging
 .Python
 build/
@@ -164,6 +162,11 @@ cython_debug/
 .vscode/extensions.json
 
 
-# custom data
+## data packs and outputs
+
+data/
+data/*
+data.zip
+examples/output/
+notebooks/output/
 output/
-*/output/
