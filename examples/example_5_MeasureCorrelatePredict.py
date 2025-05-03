@@ -55,8 +55,9 @@ df_vortex_txt.columns = ['M_vortex_txt', 'Dir_vortex_txt']
 
 df_concurrent = df_obs_txt.merge(df_vortex_txt, left_index=True, right_index=True).dropna()
 df_all = df_obs_txt.merge(df_vortex_txt, left_index=True, right_index=True, how='outer')
-print(df_concurrent.describe())
 
+
+print(df_concurrent.describe())
 print(df_all.describe())
 
 
@@ -138,12 +139,9 @@ for sector in sector_labels:
     print(f"\nSector {sector} Regression Statistics:")
     print(f"Slope: {slope:.4f}, Intercept: {intercept:.4f}, R-squared: {r_value**2:.4f}")
 
-
-print(df_all.head())
-print(df_concurrent.describe())
-
 # Apply sector-specific regression to create the new MCP column
 df_all['Ymcp_sectorial'] = None
+
 
 for sector in sector_labels:
     mask = df_all['dir_sector'] == sector
@@ -154,108 +152,49 @@ for sector in sector_labels:
     else:
         print(f"Warning: Sector {sector} has no data points. Skipping.")
 
-# Print comparison of overall and sectorial MCP methods
-print("\nComparison of MCP methods (for concurrent data):")
-print(df_all.describe())
-print(df_concurrent.describe())
-exit(0)
-stats_comparison = df_concurrent[['M_obs_txt', 'Ymcp', 'Ymcp_sectorial']].describe()
-print(stats_comparison)
+# Convert Ymcp_sectorial column to float64
+df_all['Ymcp_sectorial'] = df_all['Ymcp_sectorial'].astype('float64')
+df = df_all.copy().dropna()[['M_obs_txt', 'M_vortex_txt','Ymcp', 'Ymcp_sectorial']]
+print(df.describe())
 
-# Plot comparison of the two MCP methods
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.scatter(df_concurrent['M_obs_txt'], df_concurrent['Ymcp'], alpha=0.4, label='Global MCP')
-ax.scatter(df_concurrent['M_obs_txt'], df_concurrent['Ymcp_sectorial'], alpha=0.4, label='Sectorial MCP')
-ax.plot([0, df_concurrent['M_obs_txt'].max()], [0, df_concurrent['M_obs_txt'].max()], 'k--', label='1:1 Line')
-ax.set_xlabel('Observed Wind Speed (m/s)')
-ax.set_ylabel('MCP Wind Speed (m/s)')
-ax.set_title(f'{SITE} - Comparison of MCP Methods')
-ax.legend()
-plt.savefig(os.path.join(output_dir, f'{SITE}_mcp_comparison.png'), bbox_inches='tight')
-
-exit(0)
+# create xt plot
+xt_stats = plot_xy_comparison(
+    df=df,
+    x_col='Ymcp',
+    y_col='M_obs_txt',
+    x_label='MCP',
+    y_label='OBS',
+    site=SITE,
+    output_dir=output_dir,
+    outlyer_threshold=4
+)
 
 
 # Create histogram
 hist_stats = plot_histogram_comparison(
     df=df,
-    cols=['M_obs_nc', 'M_vortex_nc'],
-    labels=['Measurements', 'Vortex'],
+    cols=['M_obs_txt',  'Ymcp_sectorial'],
+    labels=['Measurements', 'Sectorial MCP'],
     colors=['blue', 'red'],
     site=SITE,
     output_dir=output_dir,
     bins=25,
-    alpha=0.6
+    alpha=0.3
 )
 
-# Create histogram
 hist_stats = plot_histogram_comparison(
     df=df,
-    cols=['Dir_obs_nc', 'Dir_vortex_nc'],
-    labels=['Measurements', 'Vortex'],
-    colors=['blue', 'red'],
-    site=SITE+" Dir",
+    cols=['M_obs_txt', 'Ymcp'],
+    labels=['Measurements', 'MCP'],
+    colors=['blue',  'orange'],
+    site=SITE,
     output_dir=output_dir,
-    bins=12,
-    alpha=0.6
+    bins=25,
+    alpha=0.3
 )
 
 
 
-# =============================================================================
-# 9. Plot Annual and Daily Cycles
-# =============================================================================
-
-# Plot annual cycle for wind speed
-annual_stats_M = plot_annual_means(
-    df=df,
-    cols=['M_obs_nc', 'M_vortex_nc'],
-    labels=['Measurements', 'Vortex'],
-    colors=['blue', 'red'],
-    site=SITE,
-    output_dir=output_dir
-)
-
-# Plot daily cycle for wind speed
-daily_stats_M = plot_daily_cycle(
-    df=df,
-    cols=['M_obs_nc', 'M_vortex_nc'],
-    labels=['Measurements', 'Vortex'],
-    colors=['blue', 'red'],
-    site=SITE,
-    output_dir=output_dir
-)
-
-# =============================================================================
-# 10. Plot Yearly Means
-# =============================================================================
-
-# Plot yearly means for wind speed
-yearly_stats_M = plot_yearly_means(
-    df=df,
-    cols=['M_obs_nc', 'M_vortex_nc'],
-    labels=['Measurements', 'Vortex'],
-    colors=['blue', 'red'],
-    site=SITE,
-    output_dir=output_dir
-)
-
-
-
-# now I want to compare long term histogram using full ds_vortex_nc compared to the df period
-hist_stats = plot_yearly_means(
-    df = df_with_na,
-    cols = ['M_vortex_nc','M_obs_nc','M_vortex_nc_ST'],
-    labels=['Vortex LT','OBS','Vortex ST'],
-    colors=['green','blue','red'],
-    site =SITE,
-    output_dir=output_dir
-)
-
-# describe to check number of NaNs in years 2010 to 2014
-# check the number of NaNs in the years 2010 to 2014
-print(df_with_na.loc['2010-01-01':'2014-12-31'].describe())
-print(df_with_na.loc['2010-01-01':'2014-12-31'].isna().sum())
 
 
 
