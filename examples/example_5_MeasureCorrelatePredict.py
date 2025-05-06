@@ -14,10 +14,12 @@ This script demonstrates the process of plotting basic information once a datase
 # =============================================================================
 # 1. Import Libraries
 # =============================================================================
-
+from example_2_read_txt_functions import *
 from example_3_merge_functions import *
 from example_4_basic_plots_functions import *
 import os
+from scipy.stats import wasserstein_distance
+import seaborn as sns
 
 # =============================================================================
 # 2. Define Paths and Site
@@ -34,6 +36,7 @@ measurements_txt = os.path.join(base_path, f'{SITE}/measurements/obs.txt')
 print()
 print('#'*26, 'Vortex F.d.C. 2025', '#'*26)
 print()
+
 
 
 # Read Text Series
@@ -193,6 +196,53 @@ hist_stats = plot_histogram_comparison(
     alpha=0.3
 )
 
+file_remodeling_txt =  os.path.join(base_path, f'{SITE}/vortex/SERIE/vortex.remodeled.719711.20y 100m UTC+00.0 ERA5 - PUBfull_100.txt')
+ds_remodeling_txt = read_remodeling_serie(file_remodeling_txt)
+df_remodeling_txt = ds_remodeling_txt.to_dataframe().rename(columns={'M': 'M_remodeling_txt'})
+df =df.merge(df_remodeling_txt[['M_remodeling_txt']], left_index=True, right_index=True, how='outer').dropna()
+
+hist_stats = plot_histogram_comparison(
+    df=df,
+    cols=['M_obs_txt', 'M_remodeling_txt'],
+    labels=['Measurements', 'Remodeling'],
+    colors=['blue',  'orange'],
+    site=SITE,
+    output_dir=output_dir,
+    bins=25,
+    alpha=0.3
+)
+# Import required library for Earth Mover's Distance calculation
+
+# Calculate Earth Mover's Distance (Wasserstein distance) for each method
+
+emd_results = {}
+for col in ['Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt']:
+    # Calculate EMD between the method and observations
+    emd = wasserstein_distance(df['M_obs_txt'], df[col])
+    emd_results[col] = emd
+
+
+
+# Print a statistical comparison of all columns in the DataFrame
+print("\nStatistical Comparison of All Methods:")
+print("=" * 80)
+comparison_stats = df.describe()
+print(comparison_stats)
+
+# Calculate mean absolute error and root mean squared error for each prediction method compared to observations
+print("\nError Metrics (compared to M_obs_txt):")
+print("=" * 80)
+for col in ['Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt']:
+    mae = (df[col] - df['M_obs_txt']).abs().mean()
+    rmse = ((df[col] - df['M_obs_txt']) ** 2).mean() ** 0.5
+    bias = (df[col] - df['M_obs_txt']).mean()
+    print(f"{col}:")
+    print(f"  Mean Absolute Error (MAE): {mae:.4f} m/s")
+    print(f"  Root Mean Squared Error (RMSE): {rmse:.4f} m/s")
+    print(f"  Bias: {bias:.4f} m/s")
+    print(f"  Histogram error(EMD): {emd_results[col]:.4f}")
+
+exit()
 
 
 
