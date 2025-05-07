@@ -77,7 +77,8 @@ xy_stats = plot_xy_comparison(
     y_label='Vortex Wind Speed (m/s)',
     site=SITE,
     output_dir=output_dir,
-    outlyer_threshold=4
+    outlyer_threshold=4,
+    show=False
 )
 
 # Print regression statistics
@@ -158,20 +159,6 @@ for sector in sector_labels:
 # Convert Ymcp_sectorial column to float64
 df_all['Ymcp_sectorial'] = df_all['Ymcp_sectorial'].astype('float64')
 df = df_all.copy().dropna()[['M_obs_txt', 'M_vortex_txt','Ymcp', 'Ymcp_sectorial']]
-print(df.describe())
-
-# create xt plot
-xt_stats = plot_xy_comparison(
-    df=df,
-    x_col='Ymcp',
-    y_col='M_obs_txt',
-    x_label='MCP',
-    y_label='OBS',
-    site=SITE,
-    output_dir=output_dir,
-    outlyer_threshold=4
-)
-
 
 # Create histogram
 hist_stats = plot_histogram_comparison(
