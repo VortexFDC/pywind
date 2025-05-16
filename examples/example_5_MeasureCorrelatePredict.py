@@ -10,16 +10,16 @@ Overview:
 This script demonstrates the process of plotting basic information once a dataset from both measurements and synthetic data has been merged.
 
 """
-
 # =============================================================================
 # 1. Import Libraries
 # =============================================================================
 from example_2_read_txt_functions import *
 from example_3_merge_functions import *
 from example_4_basic_plots_functions import *
-import os
 from scipy.stats import wasserstein_distance
-import seaborn as sns
+import os
+from example_5_MeasureCorrelatePredict_functions import plot_histogram_comparison_lines
+
 
 # =============================================================================
 # 2. Define Paths and Site
@@ -37,8 +37,6 @@ print()
 print('#'*26, 'Vortex F.d.C. 2025', '#'*26)
 print()
 
-
-
 # Read Text Series
 ds_vortex_txt = read_vortex_serie(vortex_txt)
 df_obs_txt = read_vortex_obs_to_dataframe(measurements_txt)[['M', 'Dir']]
@@ -48,7 +46,7 @@ ds_vortex_txt = ds_vortex_txt[['M', 'Dir']].squeeze().reset_coords(drop=True)
 # convert ds_obs_txt to hourly
 ds_obs_txt = ds_obs_txt.resample(time='1H').mean()
 # =============================================================================
-# 6. Convert all to DataFrame, Rename and Merge
+# 3. Convert all to DataFrame, Rename and Merge
 # =============================================================================
 df_obs_txt = ds_obs_txt.to_dataframe()
 df_vortex_txt = ds_vortex_txt.to_dataframe()
@@ -59,16 +57,16 @@ df_vortex_txt.columns = ['M_vortex_txt', 'Dir_vortex_txt']
 df_concurrent = df_obs_txt.merge(df_vortex_txt, left_index=True, right_index=True).dropna()
 df_all = df_obs_txt.merge(df_vortex_txt, left_index=True, right_index=True, how='outer')
 
-
-print(df_concurrent.describe())
-print(df_all.describe())
+# SAVED DATASETS, CONCURRENT AND ALL PERIODS
+#print(df_concurrent.describe())
+#print(df_all.describe())
 
 
 # =============================================================================
-# 8. Use the functions for plotting
+# 4. Use the functions for regression
 # =============================================================================
 output_dir = "output"
-# Use the functions to create the plots
+# Use the functions to compute metrics
 xy_stats = plot_xy_comparison(
     df=df_concurrent, 
     x_col='M_vortex_txt', 
@@ -89,13 +87,32 @@ print(f"R-squared: {xy_stats['r_squared']:.4f}")
 print(f"p-value: {xy_stats['p_value']:.4e}")
 print(f"Standard Error: {xy_stats['std_err']:.4f}")
 
+# =============================================================================
+# 5. Compute the MCP
+# =============================================================================
+
 ## create a new column with the MCP
 ## Ymcp ) = {xy_stats['intercept'] + {xy_stats['slope']*df_all['M_vortex_txt']}
 df_all['Ymcp'] = xy_stats['intercept'] + xy_stats['slope']*df_all['M_vortex_txt']
 
 # concurrent stats
 
-print(df_all.dropna().describe())
+#print(df_all.dropna().describe())
+
+hist_stats = plot_histogram_comparison(
+    df=df_all.dropna(),
+    cols=['M_obs_txt', 'Ymcp'],
+    labels=['Measurements', 'MCP'],
+    colors=['blue',  'orange'],
+    site=SITE,
+    output_dir=output_dir,
+    bins=25,
+    alpha=0.3
+)
+
+# =============================================================================
+# 6. Compute the Sectorial MCP
+# =============================================================================
 
 # Define 8 directional sectors (0-45, 45-90, etc.)
 sector_bounds = list(range(0, 361, 45))
@@ -171,17 +188,11 @@ hist_stats = plot_histogram_comparison(
     bins=25,
     alpha=0.3
 )
+# =============================================================================
+# 7. Read remodeling
+# =============================================================================
 
-hist_stats = plot_histogram_comparison(
-    df=df,
-    cols=['M_obs_txt', 'Ymcp'],
-    labels=['Measurements', 'MCP'],
-    colors=['blue',  'orange'],
-    site=SITE,
-    output_dir=output_dir,
-    bins=25,
-    alpha=0.3
-)
+# we now introduce a different method, Vortex Remodeling
 
 file_remodeling_txt =  os.path.join(base_path, f'{SITE}/vortex/SERIE/vortex.remodeled.719711.20y 100m UTC+00.0 ERA5 - PUBfull_100.txt')
 ds_remodeling_txt = read_remodeling_serie(file_remodeling_txt)
@@ -198,6 +209,10 @@ hist_stats = plot_histogram_comparison(
     bins=25,
     alpha=0.3
 )
+
+# =============================================================================
+# 8. Compare statsistics
+# =============================================================================
 # Import required library for Earth Mover's Distance calculation
 
 # Calculate Earth Mover's Distance (Wasserstein distance) for each method
@@ -210,11 +225,6 @@ for col in ['Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt']:
 
 
 
-# Print a statistical comparison of all columns in the DataFrame
-print("\nStatistical Comparison of All Methods:")
-print("=" * 80)
-comparison_stats = df.describe()
-print(comparison_stats)
 
 # Calculate mean absolute error and root mean squared error for each prediction method compared to observations
 print("\nError Metrics (compared to M_obs_txt):")
@@ -229,87 +239,21 @@ for col in ['Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt']:
     print(f"  Bias: {bias:.4f} m/s")
     print(f"  Histogram error(EMD): {emd_results[col]:.4f}")
 
+# =============================================================================
+# 9. Liner histogram for histogram comparison
+# =============================================================================
 
 
-    def plot_histogram_comparison_lines(df, cols, labels, colors, site='Site', output_dir='output', bins=20, alpha=0.7, save_fig=True):
-        """
-        Create a histogram comparison plot with lines instead of bars.
-        
-        Parameters:
-        -----------
-        df : pandas.DataFrame
-            DataFrame containing the columns to be plotted.
-        cols : list
-            List of column names to plot.
-        labels : list
-            List of labels for the legend.
-        colors : list
-            List of colors for each line.
-        site : str
-            Site name for the plot title.
-        output_dir : str
-            Directory to save the output plot.
-        bins : int
-            Number of bins for the histogram.
-        alpha : float
-            Transparency of the lines.
-        save_fig : bool
-            Whether to save the figure or not.
-            
-        Returns:
-        --------
-        dict
-            Statistics of each distribution.
-        """
-        plt.figure(figsize=(10, 6))
-        
-        stats = {}
-        
-        for col, label, color in zip(cols, labels, colors):
-            # Calculate histogram values
-            hist_values, bin_edges = np.histogram(df[col].dropna(), bins=bins, density=True)
-            bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-            
-            # Plot as a line
-            plt.plot(bin_centers, hist_values, label=label, color=color, linewidth=2, alpha=alpha)
-            
-            # Store statistics
-            stats[label] = {
-                'mean': df[col].mean(),
-                'median': df[col].median(),
-                'std': df[col].std(),
-                'min': df[col].min(),
-                'max': df[col].max(),
-            }
-        
-        plt.title(f'Wind Speed Distribution Comparison - {site}')
-        plt.xlabel('Wind Speed (m/s)')
-        plt.ylabel('Probability Density')
-        plt.legend()
-        plt.grid(True, linestyle='--', alpha=0.7)
-        
-        # Create output directory if it doesn't exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        if save_fig and output_dir and site:
-            os.makedirs(output_dir, exist_ok=True)
-            plt.savefig(os.path.join(output_dir, f'histogram_comparison_{site}.png'), dpi=300, bbox_inches='tight')
-        plt.show()
-        plt.close()
-        
-        print(f"Histogram line plot saved to {output_dir}/histogram_comparison_{site}.png")
-        return stats
-
-    # Example usage for the new function
-    hist_line_stats = plot_histogram_comparison_lines(
-        df=df,
-        cols=['M_obs_txt', 'Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt'],
-        labels=['Measurements', 'MCP', 'Sectorial MCP', 'Remodeling'],
-        colors=['blue', 'orange', 'red', 'green'],
-        site=SITE,
-        output_dir=output_dir,
-        bins=25
-    )
+# Example usage for the new function
+hist_line_stats = plot_histogram_comparison_lines(
+    df=df,
+    cols=['M_obs_txt', 'Ymcp', 'Ymcp_sectorial', 'M_remodeling_txt'],
+    labels=['Measurements', 'MCP', 'Sectorial MCP', 'Remodeling'],
+    colors=['blue', 'orange', 'red', 'green'],
+    site=SITE,
+    output_dir=output_dir,
+    bins=50
+)
 exit()
 
 

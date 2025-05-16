@@ -104,6 +104,9 @@ def plot_xy_comparison(df, x_col, y_col, x_label=None, y_label=None, site=None,
     # Show the plot
     if show:
         plt.show()
+    else:
+        plt.clf()
+        plt.close()
     
     # Return regression statistics
     stats_dict = {
