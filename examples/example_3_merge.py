@@ -36,7 +36,7 @@ By following these steps, the script aims to provide a comprehensive approach to
 # =============================================================================
 # 1. Import Libraries
 # =============================================================================
-
+from example_2_read_txt_functions import *
 from example_3_merge_functions import *
 import pandas as pd
 

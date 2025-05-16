@@ -55,6 +55,55 @@ def read_vortex_serie(filename: str = "vortex.txt",
     __ds = add_attrs_vars(__ds)
     return __ds
 
+def read_remodeling_serie(filename: str = "vortex.txt",
+                      vars_new_names: Dict = None) -> xr.Dataset:
+    """
+    Read typical vortex time series from SERIES product and return
+    an xarray.Dataset
+
+    Parameters
+    ----------
+    vars_new_names: Dict
+        the dictionary with the old names to new names
+
+    filename: str
+        just the filename is enough
+
+    Returns
+    -------
+    ds: xarray.Dataset
+        Dataset
+
+    Examples
+    --------
+    Lat=52.90466  Lon=14.76794  Hub-Height=130  Timezone=00.0   ASL-Height(avg. 3km-grid)=73  (file requested on 2022-10-17 11:34:05)
+    VORTEX f.d.c. (www.vortexfdc.com) - Computed at 3km resolution based on ERA5 data (designed for correlation purposes)
+    YYYYMMDD HHMM  M(m/s) D(deg)  T(C)  De(k/m3) PRE(hPa)      RiNumber  RH(%)   RMOL(1/m)
+    19910101 0000    8.5    175    2.1    1.25     988.1           0.56   91.1      0.
+
+    """
+    patterns = {'Lat=': 'lat',
+                'Lon=': 'lon',
+                'Timezone=': 'utc',
+                'Hub-Height=': 'lev'}
+    metadata = _get_coordinates_vortex_header(filename, patterns, line=0)
+    data = read_txt_to_pandas(filename, utc=metadata['utc'],
+                              skiprows=3, header=0, names=None)
+    __ds = convert_to_xarray(data, coords=metadata).squeeze()
+
+    if vars_new_names is None:
+        vars_new_names = {'M(m/s)': 'M',
+                          'D(deg)': 'Dir',
+                          'T(C)': 'T',
+                          'PRE(hPa)': 'P'
+        }
+    __ds = rename_vars(__ds, vars_new_names)
+
+    __ds = add_attrs_vars(__ds)
+    return __ds
+
+
+
 
 def read_vortex_obs_to_dataframe(infile: str,
                                  with_sd: bool = False,
