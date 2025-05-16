@@ -194,7 +194,7 @@ hist_stats = plot_histogram_comparison(
 
 # we now introduce a different method, Vortex Remodeling
 
-file_remodeling_txt =  os.path.join(base_path, f'{SITE}/vortex/SERIE/vortex.remodeled.719711.20y 100m UTC+00.0 ERA5 - PUBfull_100.txt')
+file_remodeling_txt =  os.path.join(base_path, f'{SITE}/vortex/SERIE/vortex.remodeling.utc0.100m.txt')
 ds_remodeling_txt = read_remodeling_serie(file_remodeling_txt)
 df_remodeling_txt = ds_remodeling_txt.to_dataframe().rename(columns={'M': 'M_remodeling_txt'})
 df =df.merge(df_remodeling_txt[['M_remodeling_txt']], left_index=True, right_index=True, how='outer').dropna()

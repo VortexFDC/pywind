@@ -86,6 +86,9 @@ Merge two datasets. We will use the data from previous chapters. We will be merg
 - [Chapter 4](notebooks/example_4_basic_plots.ipynb)
 With the previous datasets loaded we make some plots to gather extra information. XY plots for correlation. Histograms for wind and direction distribution. Yealy and daily cycles together with interanual variability are created. Also some more data cleaning is performed by extended measurements and Vortex data. An  outlyers identification approach is also proposed.
 
+- [Chapter 5](notebooks/example_5_MeasureCorrelatePredict.ipynb)
+Loading the previous datasets we compute MCP and another wind direction categorized MCP. We also load a Vortex remodeling. Later we compare statistics of the three methods and visualize the histogram comparison.
+We have added the remodeling file in the froya.zip archive.
 
 
 

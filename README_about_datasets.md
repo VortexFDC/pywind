@@ -13,6 +13,8 @@ The data can be downloaded appart from this repository -->
 To check the data integrity and autenticity the md5 checksun is:
 md5sum froya.zip : 3ad4368eef6c8bb6ce8137448cdaaa1c
 
+* updated on 2025-05-16 
+
 After unpacking the folder structure should be created as follows under data folder:
 ``` 
 ├── froya
@@ -23,6 +25,7 @@ After unpacking the folder structure should be created as follows under data fol
 │       └── SERIE
 │           ├── vortex.serie.era5.utc0.nc
 │           └── vortex.serie.era5.utc0.100m.txt
+│           └── vortex.remodeling.utc0.100m.txt  __added on 2025-05-16 __
 ```
         
 
