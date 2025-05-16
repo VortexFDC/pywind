@@ -44,7 +44,9 @@ We are also using [Vortex f.d.c](http://www.vortexfdc.com) simulations. <br />
 
 - Format netCDF with multiple heights. (data/froya/vortex/SERIE/vortex.serie.era5.utc0.nc). <br />
 
-- Format txt @ 100m height (data/froya/vortex/SERIE/vortex.serie.era5.utc0.100m.txt)
+- Format txt @ 100m height (data/froya/vortex/SERIE/vortex.serie.era5.utc0.100m.txt) <br />
+
+- Remodeled file in txt file. This has been generated using the measurements and Netcdf in this data pack. See full remodeling report in this pdf: [froya remodeling pdf](docs/vortex.remodeled.froya.utc0.100m.pdf)
 <br /><br />
 
 
