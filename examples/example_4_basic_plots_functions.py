@@ -8,7 +8,7 @@ import os
 # =============================================================================
 
 def plot_xy_comparison(df, x_col, y_col, x_label=None, y_label=None, site=None, 
-                       output_dir=None, save_fig=True, outlyer_threshold=999):  
+                       output_dir=None, save_fig=True, outlyer_threshold=999, show=True):  
     """
     Create a scatter plot with linear regression comparing two variables.
     
@@ -30,6 +30,8 @@ def plot_xy_comparison(df, x_col, y_col, x_label=None, y_label=None, site=None,
         Directory to save plot
     save_fig : bool, optional
         Whether to save the figure
+    show: bool, optional
+        Whether to show the plot
     
     Returns:
     --------
@@ -100,7 +102,11 @@ def plot_xy_comparison(df, x_col, y_col, x_label=None, y_label=None, site=None,
         plt.savefig(os.path.join(output_dir, f'{site}_comparison_{x_col}_vs_{y_col}.png'), dpi=300)
     
     # Show the plot
-    plt.show()
+    if show:
+        plt.show()
+    else:
+        plt.clf()
+        plt.close()
     
     # Return regression statistics
     stats_dict = {

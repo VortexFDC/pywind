@@ -30,7 +30,7 @@ Objective:
 
 from typing import Dict
 from example_2_read_txt_functions import *
-from example_2_read_txt_functions import _get_coordinates_vortex_header
+
 
 # =============================================================================
 # 2. Define Paths and Site
