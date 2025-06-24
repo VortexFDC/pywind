@@ -90,6 +90,9 @@ With the previous datasets loaded we make some plots to gather extra information
 Loading the previous datasets we compute MCP and another wind direction categorized MCP. We also load a Vortex remodeling. Later we compare statistics of the three methods and visualize the histogram comparison.
 We have added the remodeling file in the froya.zip archive.
 
+- [Chapter 6](notebooks/example_6_AtmosphericStabilityClasification.ipynb)
+We are computing Richardson number from the time series. After we use a classification based on it to plot the stability versus hours, months, wind speed and wind direction.
+
 
 
 ## 7. License [](#7-license)
