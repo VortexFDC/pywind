@@ -15,9 +15,7 @@ def plot_shear_profile_by(_ds, levs, grouping, title):
     import matplotlib.pyplot as plt
     plt.figure(figsize=(8, 6))
     groupings = _ds[grouping].values
-    print(groupings)
     for i, sel in enumerate(groupings):
-        print(f'Plotting {grouping} {sel}')
         winds = _ds.sel({grouping: sel})['M'].values.flatten()
         plt.plot(winds, levs, marker='o', label=f'{sel:02d}')
     plt.xlabel('Mean Wind Speed (m/s)')
