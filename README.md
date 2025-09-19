@@ -93,7 +93,8 @@ We have added the remodeling file in the froya.zip archive.
 - [Chapter 6](notebooks/example_6_AtmosphericStabilityClasification.ipynb)
 We are computing Richardson number from the time series. After we use a classification based on it to plot the stability versus hours, months, wind speed and wind direction.
 
-
+- [Chapter 7](notebooks/example_7_Shear.ipynb)
+We are plotting wind shear and stability information using synthetic data, as we have many levels available. We analyse the wind profile against different variables to identify varying shear with wind regimes.
 
 ## 7. License [](#7-license)
 
