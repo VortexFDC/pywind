@@ -50,7 +50,10 @@ We are also using [Vortex f.d.c](http://www.vortexfdc.com) simulations. <br />
 <br /><br />
 
 
-<div align="center"><img src="images/logo_VORTEX.png" width="200px"> </center>
+<p align="center">
+  <img src="images/logo_VORTEX.png" width="200" alt="Vortex logo" />
+</p>
+
 ## Southeast Asia variability pack (seasia)
 
 Used by chapter 8 (Variability) — the reproducible companion of the Vortex
@@ -86,4 +89,4 @@ geographic coordinates are included.
   P3 median (6.2 m/s), P4 far corner (5.7 m/s).
 - `four_points_meta.csv` — per-point metadata (km offsets, mean, height).
 - `mean_ws_map.nc` — annual-mean wind speed raster of the whole domain
-  (netCDF, coordinates `x_km`/`y_km`).
+  (NetCDF, coordinates `x_km`/`y_km`).
