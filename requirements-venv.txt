@@ -1,0 +1,23 @@
+# Pip requirements for running all examples/ and notebooks/ in this repository.
+# Python 3.10+ recommended.
+
+# Core numerical/data stack
+numpy>=2.1,<3.0
+pandas>=2.2,<3.0
+scipy>=1.15,<2.0
+xarray>=2024.10,<2026.0
+
+# Plotting
+matplotlib>=3.9,<4.0
+seaborn>=0.13,<1.0
+
+# NetCDF/HDF5 I/O used by xarray workflows
+netCDF4>=1.7,<2.0
+h5netcdf>=1.4,<2.0
+h5py>=3.12,<4.0
+cftime>=1.6,<2.0
+
+# Notebook execution
+jupyter>=1.1,<2.0
+ipykernel>=6.29,<7.0
+nbconvert>=7.16,<8.0

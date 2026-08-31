@@ -61,6 +61,47 @@ Clone this repository in your local git environment:
 
 `git clone https://github.com/VortexFDC/pywind.git`
 
+Create and activate a Python virtual environment (recommended Python 3.10+):
+
+`cd pywind`
+
+`python3 -m venv .venv`
+
+`source .venv/bin/activate`
+
+Install dependencies for all examples and notebooks:
+
+`python -m pip install --upgrade pip`
+
+`python -m pip install -r requirements-venv.txt`
+
+Optional: register this environment as a Jupyter kernel:
+
+`python -m ipykernel install --user --name pywind-venv --display-name "Python (pywind-venv)"`
+
+Data prerequisites:
+
+Before running examples or notebooks, download and unpack the required data packs
+as described in [README_about_datasets.md](README_about_datasets.md).
+
+Expected folders are:
+
+- `data/froya/...` for chapters 1-7
+- `data/seasia/...` for chapter 8
+
+Quick validation:
+
+`python -c "import numpy, pandas, xarray, scipy, matplotlib, netCDF4, h5netcdf, h5py, cftime"`
+
+`python examples/example_1_read_netcdf.py`
+
+`jupyter nbconvert --to notebook --execute notebooks/example_1_read_netcdf.ipynb --output /tmp/pywind_example_1.executed.ipynb`
+
+If `netCDF4` or `h5py` installation fails on Linux because binary wheels are not available,
+install system libraries first (for Debian/Ubuntu):
+
+`sudo apt-get update && sudo apt-get install -y libhdf5-dev libnetcdf-dev`
+
 
 ## 5. Usage [](#5-usage)
 
@@ -95,6 +136,9 @@ We are computing Richardson number from the time series. After we use a classifi
 
 - [Chapter 7](notebooks/example_7_Shear.ipynb)
 We are plotting wind shear and stability information using synthetic data, as we have many levels available. We analyse the wind profile against different variables to identify varying shear with wind regimes.
+
+- [Chapter 8](notebooks/example_8_Variability.ipynb)
+The reproducible companion of the Vortex blog post "A better view of variables variability (without eating your tongue)". Using the seasia data pack (four time series + the annual-mean wind speed raster of a Southeast Asia domain) we show that wind variability is spatial AND temporal: the map of means, the raw series, three temporal summaries (histogram, daily cycle, yearly cycle), and the same summaries drawn as insets on the map — where distribution shape, diurnal phase and monsoon peak all change from point to point.<br /> You can see a blog post commenting variability here: https://vortexfdc.com/blog/wind-resource-variability-explained/
 
 ## 7. License [](#7-license)
 
