@@ -138,7 +138,7 @@ We are computing Richardson number from the time series. After we use a classifi
 We are plotting wind shear and stability information using synthetic data, as we have many levels available. We analyse the wind profile against different variables to identify varying shear with wind regimes.
 
 - [Chapter 8](notebooks/example_8_Variability.ipynb)
-The reproducible companion of the Vortex blog post "A better view of variables variability (without eating your tongue)". Using the seasia data pack (four time series + the annual-mean wind speed raster of a Southeast Asia domain) we show that wind variability is spatial AND temporal: the map of means, the raw series, three temporal summaries (histogram, daily cycle, yearly cycle), and the same summaries drawn as insets on the map — where distribution shape, diurnal phase and monsoon peak all change from point to point.
+The reproducible companion of the Vortex blog post "A better view of variables variability (without eating your tongue)". Using the seasia data pack (four time series + the annual-mean wind speed raster of a Southeast Asia domain) we show that wind variability is spatial AND temporal: the map of means, the raw series, three temporal summaries (histogram, daily cycle, yearly cycle), and the same summaries drawn as insets on the map — where distribution shape, diurnal phase and monsoon peak all change from point to point.<br /> You can see a blog post commenting variability here: https://vortexfdc.com/blog/wind-resource-variability-explained/
 
 ## 7. License [](#7-license)
 
